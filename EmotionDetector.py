@@ -5,7 +5,7 @@ import numpy as np
 #import pandas as pd
 #from EmoPy.src.fermodel import FERModel
 import threading
-from EmoPy1.EmoPy.src.fermodel import FERModel
+from Emotion.EmoPy.src.fermodel import FERModel
 
 def Capturing_video():
   counter = 0
