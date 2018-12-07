@@ -2,10 +2,10 @@ import numpy as np
 from pandas import DataFrame 
 import EmoPy 
 from PIL import Image
-from EmoPy.src.fermodel import FERModel
-import videoCapture 
+from Emotion.src.fermodel import FERModel
 
-def Model(target_emotions):
+
+def Model():
     """Combinations of emotions:
             fear, anger, calm, surprise
             surprise, happiness, disgust
@@ -18,19 +18,33 @@ def Model(target_emotions):
             happiness, ange """
 
 
-    model = FERModel(target_emotions, verbose=True)
+    Emotions = [['calm', 'anger', 'happiness'],
+                ['surprise', 'disgust', 'happiness'],
+                ['fear', 'anger', 'surprise'],
+                ['fear', 'anger', 'calm'],
+                ['happiness', 'anger', 'calm'],
+                ['fear', 'anger', 'disgust'],
+                ['surprise', 'calm', 'disgust'],
+                ['surprise', 'sadness', 'disgust'],
+                ['happiness', 'anger']]
 
-    return model
-def load_image(Path):
-    return Image.open(Path)
+    Emotions = DataFrame(Emotions)
+    
+    models = {}
+    for i in range(len(Emotions)):
+        target = list(Emotions.iloc[i, :])
+        if i < len(Emotions)-1:
+            models['Model' + str(i)] = FERModel(target, verbose=True)
 
-def predict(model, image):
-    print('Predicting  image...')
-    return model.predict(image)
+        else:
+            models['Model' + str(i)] = FERModel(target[:-1], verbose=True)
+    return models
+
+
+
 
 
 if __name__=='main':
     
     model= Model(['happiness', 'anger'])
-    img= load_image('happy.jpg')
-    predict(model, img)
+    
